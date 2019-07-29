@@ -1,7 +1,11 @@
 {
   "name": "band-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "band-tracker app",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zbutler93/band-tracker.git"
+  },
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose --runInBand",
@@ -23,8 +27,11 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.7"
   }
 }
