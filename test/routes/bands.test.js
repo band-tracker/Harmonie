@@ -44,7 +44,7 @@ describe('bands routes', () => {
       });
   });
 
-  it('can update a band by id', () => {
+  it('can update a band by id if user is leader', () => {
     const band = getBands()[0];
 
     return getAgent()
@@ -65,6 +65,29 @@ describe('bands routes', () => {
         expect(res.body).toEqual({ 
           message: 'Action not authorized',
           status: 403,
+        });
+      });
+  });
+
+  it('can delete a band by id if user is leader', () => {
+    const band = getBands()[0];
+
+    return getAgent()
+      .delete(`/api/v1/bands/${band._id}`)
+      .then(res => {
+        expect(res.body).toEqual(band);
+      });
+  });
+
+  it('cannot delete a band by id if not leader', () => {
+    const band = getBands()[1];
+
+    return getAgent()
+      .delete(`/api/v1/bands/${band._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'Action not authorized',
+          status: 403
         });
       });
   });
