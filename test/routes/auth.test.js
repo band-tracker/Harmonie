@@ -44,4 +44,19 @@ describe('users routes', () => {
         });
       });
   });
+
+  it('can verify a user', () => {
+    const user = getUser();
+    return getAgent()
+      .get('/api/v1/auth/verify')
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: user._id.toString(),
+          username: user.username,
+          photoUrl: user.photoUrl,
+          email: user.email,
+          phone: user.phone
+        });
+      });
+  });
 });
