@@ -1,4 +1,4 @@
-const { getAgent, getUser } = require('../data-helpers');
+const { getAgent, getUsers } = require('../data-helpers');
 const request = require('supertest');
 const app = require('../../lib/app');
 
@@ -12,7 +12,7 @@ describe('users routes', () => {
         password: 'password',
         photoUrl: 'http://photo.jpg',
         email: 'bandaholic@gmail.com',
-        phone: '555-555-5555'
+        phone: '(555) 555-5555'
       })
       .then(res => {
         expect(res.header['set-cookie']).toBeDefined();
@@ -21,13 +21,13 @@ describe('users routes', () => {
           username: 'bandaholic',
           photoUrl: 'http://photo.jpg',
           email: 'bandaholic@gmail.com',
-          phone: '555-555-5555'
+          phone: '(555) 555-5555'
         });
       });
   });
 
   it('signs in a user, returns user', () => {
-    const user = getUser();
+    const user = getUsers()[0];
     return getAgent()
       .post('/api/v1/auth/signin')
       .send({
@@ -36,7 +36,7 @@ describe('users routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          _id: user._id.toString(),
+          _id: user._id,
           username: user.username,
           photoUrl: user.photoUrl,
           email: user.email,
@@ -46,12 +46,12 @@ describe('users routes', () => {
   });
 
   it('can verify a user', () => {
-    const user = getUser();
+    const user = getUsers()[0];
     return getAgent()
       .get('/api/v1/auth/verify')
       .then(res => {
         expect(res.body).toEqual({
-          _id: user._id.toString(),
+          _id: user._id,
           username: user.username,
           photoUrl: user.photoUrl,
           email: user.email,
