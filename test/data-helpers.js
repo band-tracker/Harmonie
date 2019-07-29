@@ -4,7 +4,9 @@ const request = require('supertest');
 const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
-const User = require('../lib/models/User');
+const seedData = require('./seed-data');
+
+const prepare = arr => JSON.parse(JSON.stringify(arr));
 
 beforeAll(() => {
   connect();
@@ -14,21 +16,19 @@ beforeEach(() => {
   return mongoose.connection.dropDatabase();
 });
 
-let user = null;
 let agent = request.agent(app);
+let seededUsers = null;
+let seededBands = null;
+
 beforeEach(async() => {
-  user = await User.create({
-    username: 'bandaholic2',
-    password: 'password',
-    photoUrl: 'http://photo.jpg',
-    email: 'bandaholic2@gmail.com',
-    phone: '555-555-5556'
-  });
+  const { users, bands } = await seedData();
+  seededUsers = prepare(users);
+  seededBands = prepare(bands);
 
   return await agent
     .post('/api/v1/auth/signin')
     .send({
-      username: user.username,
+      username: users[0].username,
       password: 'password'
     });
 });
@@ -39,5 +39,6 @@ afterAll(() => {
 
 module.exports = {
   getAgent: () => agent,
-  getUser: () => user
+  getUsers: () => seededUsers,
+  getBands: () => seededBands
 };
