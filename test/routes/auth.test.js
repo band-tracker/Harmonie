@@ -1,9 +1,11 @@
 const { getAgent, getUser } = require('../data-helpers');
+const request = require('supertest');
+const app = require('../../lib/app');
 
 describe('users routes', () => {
   
   it('creates and returns new user', () => {
-    return getAgent()
+    return request(app)
       .post('/api/v1/auth/signup')
       .send({
         username: 'bandaholic',
@@ -36,7 +38,9 @@ describe('users routes', () => {
         expect(res.body).toEqual({
           _id: user._id.toString(),
           username: user.username,
-          photoUrl: user.photoUrl
+          photoUrl: user.photoUrl,
+          email: user.email,
+          phone: user.phone
         });
       });
   });
