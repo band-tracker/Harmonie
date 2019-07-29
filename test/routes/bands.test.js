@@ -23,4 +23,49 @@ describe('bands routes', () => {
         });
       });
   });
+
+  it('get all bands', () => {
+    const bands = getBands();
+
+    return getAgent()
+      .get('/api/v1/bands')
+      .then(res => {
+        expect(res.body).toEqual(bands);
+      });
+  });
+
+  it('can get a band by its id', () => {
+    const band = getBands()[0];
+
+    return getAgent()
+      .get(`/api/v1/bands/${band._id}`)
+      .then(res => {
+        expect(res.body).toEqual(band);
+      });
+  });
+
+  it('can update a band by id', () => {
+    const band = getBands()[0];
+
+    return getAgent()
+      .patch(`/api/v1/bands/${band._id}`)
+      .send({ name: 'just SUSAN' })
+      .then(res => {
+        expect(res.body).toEqual({ ...band, name: 'just SUSAN' });
+      });
+  });
+
+  it('cannot update a band by id if user is not a leader', () => {
+    const band = getBands()[1];
+
+    return getAgent()
+      .patch(`/api/v1/bands/${band._id}`)
+      .send({ name: 'just SUSAN' })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          message: 'Action not authorized',
+          status: 403,
+        });
+      });
+  });
 });
