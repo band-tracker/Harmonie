@@ -51,4 +51,23 @@ describe('concert routes', () => {
         });
       });
   });
+
+  it('get concert by id', () => {
+    const concert = getConcerts()[0];
+    return getAgent()
+      .get(`/api/v1/concerts/${concert._id}`)
+      .then(res => {
+        expect(res.body).toEqual(concert);
+      });
+  });
+
+  it('updates concert by id if user is leader', () => {
+    const concert = getConcerts()[0];
+    return getAgent()
+      .patch(`/api/v1/concerts/${concert._id}`)
+      .send({ name: 'Cool Cucumber Concert' })
+      .then(res => {
+        expect(res.body).toEqual({ ...concert, name: 'Cool Cucumber Concert' });
+      });
+  });
 });
