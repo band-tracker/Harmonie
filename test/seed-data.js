@@ -1,8 +1,9 @@
 const User = require('../lib/models/User');
 const Band = require('../lib/models/Band');
+const Concert = require('../lib/models/Concert');
 const chance = require('chance').Chance();
 
-module.exports = async({ users = 10 } = {}) => {
+module.exports = async({ users = 10, concertsPerBand = 1 } = {}) => {
   const createdUsers = await User.create(
     [...Array(users)].map(() => ({
       username: chance.name(),
@@ -29,9 +30,24 @@ module.exports = async({ users = 10 } = {}) => {
     description: chance.sentence()
   });
 
+  const createdBands = [createdBandOne, createdBandTwo];
+  const createdConcerts = await Concert.create(createdBands.flatMap(band => {
+    return [...Array(concertsPerBand)]
+      .map(() => ({
+        address: chance.address(),
+        bandId: band._id,
+        startTime: chance.date(),
+        thingsToBring: chance.word(),
+        attire: chance.word(),
+        specialMessage: chance.sentence(),
+        music: [chance.word(), chance.word()]
+      }));
+  }));
+
   return {
     users: createdUsers,
-    bands: [createdBandOne, createdBandTwo]
+    bands: createdBands,
+    concerts: createdConcerts
   };
 };
 
