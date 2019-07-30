@@ -1,4 +1,4 @@
-const { getAgent, getBands } = require('../data-helpers');
+const { getAgent, getBands, getConcerts } = require('../data-helpers');
 
 describe('concert routes', () => {
   it('creates and returns new concert', () => {
@@ -20,6 +20,18 @@ describe('concert routes', () => {
           beThereTime: new Date('August 25, 2019 11:00:25').toISOString(),
           thingsToBring: 'stuff',
           music: []
+        });
+      });
+  });
+
+  it('get all concerts ', () => {
+    const concerts = getConcerts();
+
+    return getAgent()
+      .get('/api/v1/concerts')
+      .then(res => {
+        concerts.forEach(concert => {
+          expect(res.body).toContainEqual(concert);
         });
       });
   });
