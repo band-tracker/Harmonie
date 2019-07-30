@@ -83,5 +83,28 @@ describe('concert routes', () => {
         });
       });
   });
+
+  it('can delete a concert by id if the user is the leader', () => {
+    const concert = getConcerts()[0];
+
+    return getAgent()
+      .delete(`/api/v1/concerts/${concert._id}`)
+      .then(res => {
+        expect(res.body).toEqual(concert);
+      });
+  });
+
+  it('cannnot delete a concert by id if not leader', () => {
+    const concert = getConcerts()[2];
+
+    return getAgent()
+      .delete(`/api/v1/concerts/${concert._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'Action not authorized',
+          status: 403,
+        });
+      });
+  });
 });
 
