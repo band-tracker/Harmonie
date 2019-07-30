@@ -20,11 +20,13 @@ let agent = request.agent(app);
 let seededUsers = null;
 let seededBands = null;
 let seededConcerts = null;
+let seededRehearsals = null;
 beforeEach(async() => {
-  const { users, bands, concerts } = await seedData();
+  const { users, bands, concerts, rehearsals } = await seedData();
   seededUsers = prepare(users);
   seededBands = prepare(bands);
   seededConcerts = prepare(concerts);
+  seededRehearsals = prepare(rehearsals);
 
   return await agent
     .post('/api/v1/auth/signin')
@@ -42,5 +44,6 @@ module.exports = {
   getAgent: () => agent,
   getUsers: () => seededUsers,
   getBands: () => seededBands,
-  getConcerts: () => seededConcerts
+  getConcerts: () => seededConcerts,
+  getRehearsals: () => seededRehearsals
 };
