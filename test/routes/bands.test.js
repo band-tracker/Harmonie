@@ -69,6 +69,20 @@ describe('bands routes', () => {
       });
   });
 
+  it('can add a band member to a band', () => {
+    const band = getBands()[0];
+    const userToAdd = getUsers()[1];
+    const updatedMembers = band.members.slice();
+    updatedMembers.push(userToAdd._id);
+
+    return getAgent()
+      .patch(`/api/v1/bands/${band._id}/addMember`)
+      .send({ userId: userToAdd._id })
+      .then(res => {
+        expect(res.body).toEqual({ ...band, members: updatedMembers });
+      });
+  });
+
   it('can delete a band by id if user is leader', () => {
     const band = getBands()[0];
 
