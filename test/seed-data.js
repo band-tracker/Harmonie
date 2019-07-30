@@ -36,6 +36,7 @@ module.exports = async({ users = 10, concertsPerBand = 2 } = {}) => {
       .map(() => ({
         address: chance.address(),
         bandId: band._id,
+        name: chance.word(),
         startTime: chance.date(),
         thingsToBring: chance.word(),
         attire: chance.word(),
