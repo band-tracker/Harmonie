@@ -3,7 +3,7 @@ const Band = require('../lib/models/Band');
 const Concert = require('../lib/models/Concert');
 const chance = require('chance').Chance();
 
-module.exports = async({ users = 10, concertsPerBand = 1 } = {}) => {
+module.exports = async({ users = 10, concertsPerBand = 2 } = {}) => {
   const createdUsers = await User.create(
     [...Array(users)].map(() => ({
       username: chance.name(),
