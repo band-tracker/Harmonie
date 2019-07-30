@@ -70,4 +70,18 @@ describe('concert routes', () => {
         expect(res.body).toEqual({ ...concert, name: 'Cool Cucumber Concert' });
       });
   });
+
+  it('cannot update concert by id if user is not a leader', () => {
+    const concert = getConcerts()[2];
+    return getAgent()
+      .patch(`/api/v1/concerts/${concert._id}`)
+      .send({ name: 'Cool Cucumber Concert' })
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'Action not authorized',
+          status: 403,
+        });
+      });
+  });
 });
+
