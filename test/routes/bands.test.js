@@ -83,6 +83,19 @@ describe('bands routes', () => {
       });
   });
 
+  it('can delete a band member to a band', () => {
+    const band = getBands()[0];
+    const memberLength = band.members.length;
+    const userToDelete = getUsers()[2];
+
+    return getAgent()
+      .patch(`/api/v1/bands/${band._id}/deleteMember`)
+      .send({ userId: userToDelete._id })
+      .then(res => {
+        expect(res.body.members.length).toEqual(memberLength - 1);
+      });
+  });
+
   it('can delete a band by id if user is leader', () => {
     const band = getBands()[0];
 
