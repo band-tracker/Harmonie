@@ -35,4 +35,20 @@ describe('concert routes', () => {
         });
       });
   });
+
+  it('can get all concerts by band id', () => {
+    const band = getBands()[0];
+    const concerts = getConcerts();
+    const filteredConcerts = concerts.filter(concert => {
+      return concert.bandId === band._id;
+    });
+
+    return getAgent()
+      .get(`/api/v1/concerts/byband/${band._id}`)
+      .then(res => {
+        filteredConcerts.forEach(concert => {
+          expect(res.body).toContainEqual(concert);
+        });
+      });
+  });
 });
