@@ -2,5 +2,5 @@ language: node_js
 node_js: node
 services: mongodb
 env: 
- - MONGODB_URI=mongodb://localhost:27017/travis APP_SECRET=secret TWILIO_ACCOUNT_SID=fakeSID TWILIO_AUTH_TOKEN=fakeToken
+ - MONGODB_URI=mongodb://localhost:27017/travis APP_SECRET=secret TWILIO_ACCOUNT_SID=ACfakeSID TWILIO_AUTH_TOKEN=fakeToken
 
