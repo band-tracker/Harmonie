@@ -29,7 +29,9 @@ describe('bands routes', () => {
     return getAgent()
       .get('/api/v1/bands')
       .then(res => {
-        expect(res.body).toEqual(bands);
+        bands.forEach(band => {
+          expect(res.body).toContainEqual(band);
+        });
       });
   });
 
