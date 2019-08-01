@@ -119,4 +119,17 @@ describe('bands routes', () => {
         });
       });
   });
+
+  it('gets stats on all bands in database', () => {
+    return getAgent()
+      .get('/api/v1/bands/stats')
+      .then(res => {
+        expect(res.body).toEqual({
+          totalBands: expect.any(Number),
+          statesWithMostBands: expect.any(Array),
+          avgBandSize: expect.any(Number),
+          youngestBandsByMemberAge: expect.any(Array)
+        });
+      });
+  });
 });
