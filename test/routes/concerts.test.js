@@ -7,6 +7,7 @@ describe('concert routes', () => {
       .post('/api/v1/concerts')
       .send({
         bandId: band._id,
+        name: 'cool concert',
         address: '123 X tree lane',
         startTime: new Date('August 25, 2019 11:30:25'),
         thingsToBring: 'stuff'
@@ -15,6 +16,7 @@ describe('concert routes', () => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           bandId: band._id,
+          name: 'cool concert',
           address: '123 X tree lane',
           startTime: new Date('August 25, 2019 11:30:25').toISOString(),
           beThereTime: new Date('August 25, 2019 11:00:25').toISOString(),
