@@ -7,18 +7,8 @@ const chance = require('chance').Chance();
 const woodwinds = ['clarinet', 'saxophone', 'oboe', 'flute', 'basson', 'bass clarinet'];
 const brass = ['trumpet', 'trombone', 'horn', 'euphonium', 'tuba'];
 const percussion = 'percussion';
-const instruments = [...woodwinds, ...brass, ...percussion];
+const instruments = [...woodwinds, ...brass, percussion];
 const genres = ['contemporary', 'modernist', 'experimental', 'cinematic', 'jazz', 'classical', 'impressionist', 'romantic', 'baroque'];
-
-function instrumentType(instrument) {
-  if(woodwinds.includes(instrument)) {
-    return 'woodwind';
-  } else if(brass.includes(instrument)) {
-    return 'brass';
-  } else {
-    return 'percussion';
-  }
-}
 
 module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert = 3, bands = 2 } = {}) => {
   const createdUsers = await User.create(
@@ -30,8 +20,7 @@ module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert =
       phone: '(555) 555-5555',
       age: chance.age({ type: ['teen', 'adult', 'senior'] }),
       availability: [chance.weekday(), chance.weekday(), chance.weekday()],
-      instrument: chance.pickset(instruments)[0],
-      instrumentType: instrumentType(this.instrument)
+      instrument: chance.pickset(instruments)[0]
     }))
   );
   
@@ -88,7 +77,7 @@ module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert =
         bandId: concert.bandId,
         concertId: concert._id,
         address: chance.address(),
-        startTime: chance.date(),
+        startTime: chance.date({ year: 2019 }),
         thingsToBring: chance.word(),
         specialMessage: chance.sentence(),
         music: [chance.word(), chance.word()]
