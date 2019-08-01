@@ -39,7 +39,7 @@ module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert =
 
   const createdBands = await Band.create(
     [...Array(bands)].map(() => ({
-      name: chance.name(),
+      name: `${chance.word()} band`,
       address: chance.address(),
       state: chance.state({ full: true }),
       members: chance.pickset(userIds, chance.integer({ min: 5, max: 100 })),
