@@ -4,14 +4,48 @@ const Concert = require('../lib/models/Concert');
 const Rehearsal = require('../lib/models/Rehearsal');
 const chance = require('chance').Chance();
 
-module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert = 3 } = {}) => {
+const woodwinds = ['clarinet', 'saxophone', 'oboe', 'flute', 'basson', 'bass clarinet'];
+const brass = ['trumpet', 'trombone', 'horn', 'euphonium', 'tuba'];
+const percussion = 'percussion';
+const instruments = [...woodwinds, ...brass, ...percussion];
+const genres = ['contemporary', 'modernist', 'experimental', 'cinematic', 'jazz', 'classical', 'impressionist', 'romantic', 'baroque'];
+
+function instrumentType(instrument) {
+  if(woodwinds.includes(instrument)) {
+    return 'woodwind';
+  } else if(brass.includes(instrument)) {
+    return 'brass';
+  } else {
+    return 'percussion';
+  }
+}
+
+module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert = 3, bands = 2 } = {}) => {
   const createdUsers = await User.create(
     [...Array(users)].map(() => ({
       username: chance.name(),
       photoUrl: chance.url({ extensions: ['jpg'] }),
       password: 'password',
       email: chance.email(),
-      phone: chance.phone()
+      phone: '(555) 555-5555',
+      age: chance.age({ type: ['teen', 'adult', 'senior'] }),
+      availability: [chance.weekday(), chance.weekday(), chance.weekday()],
+      instrument: chance.pickset(instruments)[0],
+      instrumentType: instrumentType(this.instrument)
+    }))
+  );
+  
+  const userIds = createdUsers.map(user => user._id);
+
+  const createdBands = await Band.create(
+    [...Array(bands)].map(() => ({
+      name: `${chance.word()} band`,
+      address: chance.address(),
+      state: chance.state({ full: true }),
+      members: chance.pickset(userIds, chance.integer({ min: 5, max: 100 })),
+      leaders: chance.pickset(userIds),
+      description: chance.sentence(),
+      genre: chance.pickset(genres)[0]
     }))
   );
 
@@ -31,7 +65,9 @@ module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert =
     description: chance.sentence()
   });
 
-  const createdBands = [createdBandOne, createdBandTwo];
+  createdBands.unshift(createdBandTwo);
+  createdBands.unshift(createdBandOne);
+
   const createdConcerts = await Concert.create(createdBands.flatMap(band => {
     return [...Array(concertsPerBand)]
       .map(() => ({

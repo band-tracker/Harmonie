@@ -29,7 +29,9 @@ describe('bands routes', () => {
     return getAgent()
       .get('/api/v1/bands')
       .then(res => {
-        expect(res.body).toEqual(bands);
+        bands.forEach(band => {
+          expect(res.body).toContainEqual(band);
+        });
       });
   });
 
@@ -114,6 +116,19 @@ describe('bands routes', () => {
         expect(res.body).toEqual({
           message: 'Action not authorized',
           status: 403
+        });
+      });
+  });
+
+  it('gets stats on all bands in database', () => {
+    return getAgent()
+      .get('/api/v1/bands/stats')
+      .then(res => {
+        expect(res.body).toEqual({
+          totalBands: expect.any(Number),
+          statesWithMostBands: expect.any(Array),
+          avgBandSize: expect.any(Number),
+          youngestBandsByMemberAge: expect.any(Array)
         });
       });
   });

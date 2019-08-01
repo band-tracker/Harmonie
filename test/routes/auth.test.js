@@ -21,7 +21,8 @@ describe('users routes', () => {
           username: 'bandaholic',
           photoUrl: 'http://photo.jpg',
           email: 'bandaholic@gmail.com',
-          phone: '(555) 555-5555'
+          phone: '(555) 555-5555',
+          availability: []
         });
       });
   });
@@ -40,7 +41,11 @@ describe('users routes', () => {
           username: user.username,
           photoUrl: user.photoUrl,
           email: user.email,
-          phone: user.phone
+          phone: user.phone,
+          availability: expect.any(Array),
+          instrument: expect.any(String),
+          instrumentType: expect.any(String),
+          age: expect.any(Number)
         });
       });
   });
@@ -55,7 +60,11 @@ describe('users routes', () => {
           username: user.username,
           photoUrl: user.photoUrl,
           email: user.email,
-          phone: user.phone
+          phone: user.phone,
+          availability: expect.any(Array),
+          instrument: expect.any(String),
+          instrumentType: expect.any(String),
+          age: expect.any(Number)
         });
       });
   });
