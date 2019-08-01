@@ -132,4 +132,15 @@ describe('bands routes', () => {
         });
       });
   });
+
+  it('can get all upcoming rehearsals for a band by id', () => {
+    const band = getBands()[0];
+
+    return getAgent()
+      .get(`/api/v1/bands/${band._id}/next-rehearsals`)
+      .then(res => {
+        console.log(res.body);
+        expect(res.body).toEqual(expect.any(Array));
+      });
+  });
 });

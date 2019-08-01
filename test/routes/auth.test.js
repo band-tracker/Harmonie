@@ -44,7 +44,6 @@ describe('users routes', () => {
           phone: user.phone,
           availability: expect.any(Array),
           instrument: expect.any(String),
-          instrumentType: expect.any(String),
           age: expect.any(Number)
         });
       });
@@ -63,7 +62,6 @@ describe('users routes', () => {
           phone: user.phone,
           availability: expect.any(Array),
           instrument: expect.any(String),
-          instrumentType: expect.any(String),
           age: expect.any(Number)
         });
       });
