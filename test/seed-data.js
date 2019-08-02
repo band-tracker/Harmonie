@@ -63,7 +63,7 @@ module.exports = async({ users = 10, concertsPerBand = 2, rehearsalsPerConcert =
         address: chance.address(),
         bandId: band._id,
         name: chance.word(),
-        startTime: chance.date(),
+        startTime: chance.date({ year: 2019 }),
         thingsToBring: chance.word(),
         attire: chance.word(),
         specialMessage: chance.sentence(),
