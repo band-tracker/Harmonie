@@ -4,7 +4,7 @@ Keep your band up to date with real time alerts with this band management app, u
 
 # App Info
 
-This is a back-end app, with Twilio text-message integration. The data you will get back when going to our app will be in JSON. The idea was to practice back-end development with the idea that it could be combined with a front-end in the future. 
+This is a back-end app, with Twilio text-message integration. The data you will get back when going to our app will be in JSON. This project was to practice back-end development with the idea that it could be combined with a front-end in the future. 
 
 There are users, bands, concerts, and rehearsals currently seeded in our database. We also performed data aggregations to find out band stats!
 
