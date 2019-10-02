@@ -27,7 +27,11 @@ More complex features involve creating a user and sending out text messages to t
 
 * MongoDB
 * Mongoose
+* Express
+* Node.js
+* Jest
 * Twilio
+* Heroku
 
 # Team Members:
 * [sepuckett86](https://github.com/sepuckett86)
